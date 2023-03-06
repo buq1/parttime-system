@@ -1,32 +1,161 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+    <div class="header">
+      <div>
+        <Location></Location>
+      </div>
+      <div>
+        <el-input :placeholder="searchDefaultText" prefix-icon="el-icon-search" v-model="searchText" @change="sendSearch($event)"></el-input>
+      </div>
+      <div>
+        <p v-if="!loginStatus">登录</p>
+        <div v-else>
+          <el-dropdown :show-timeout="150" @command="exitLogin($event)">
+            <el-avatar class="el-dropdown-link" :size="45" src="https://empty" @error="errorHandler">
+              <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png" />
+            </el-avatar>
+            <el-dropdown-menu>
+              <el-dropdown-item command="exit">退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <div>
+        <div class="left-bar">
+          <div :class="isIndex == 1 ? 'leftBarChecked' : 'uncheck-bar'" @click="switchTab(1)">
+            <i class="el-icon-house"></i>
+            <p>首页</p>
+          </div>
+          <div :class="isIndex == 2 ? 'leftBarChecked' : 'uncheck-bar'" @click="switchTab(2)">
+            <i class="el-icon-circle-plus-outline"></i>
+            <p>发布兼职</p>
+          </div>
+          <div :class="isIndex == 3 ? 'leftBarChecked' : 'uncheck-bar'" @click="switchTab(3)">
+            <i class="el-icon-place"></i>
+            <p>逛一逛</p>
+          </div>
+          <div :class="isIndex == 4 ? 'leftBarChecked' : 'uncheck-bar'" @click="switchTab(4)">
+            <i class="el-icon-message"></i>
+            <p>消息</p>
+          </div>
+          <div :class="isIndex == 5 ? 'leftBarChecked' : 'uncheck-bar'" @click="switchTab(5)">
+            <i class="el-icon-user"></i>
+            <p>我的</p>
+          </div>
+        </div>
+      </div>
+      <div><router-view /></div>
+    </div>
   </div>
 </template>
+<script>
+import Location from './components/location.vue'
+export default {
+  data() {
+    return {
+      isIndex: 1,
+      searchDefaultText: '大家都在搜索：',
+      searchText: '',
+      loginStatus: true
+    }
+  },
+  components: {
+    Location
+  },
+  methods: {
+    switchTab(val) {
+      this.isIndex = val
+      switch (val) {
+        case 1:
+          break
+        case 2:
+          break
+        case 3:
+          this.$router.push({ path: '/map' })
+          break
+      }
+    },
+    sendSearch(v) {
+      console.log(v)
+    },
+    errorHandler() {
+      return true
+    },
+    exitLogin() {
+      console.log('exit')
+    }
+  }
+}
+</script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+.el-dropdown-link {
+  cursor: pointer;
+}
+.leftBarChecked {
+  pointer-events: none;
+  background: #f9dd32;
+}
+.header {
+  width: 100%;
+  height: 70px;
+  background-color: #f9dd32;
+  box-shadow: 0px -3px 2px 1px #f4eeda inset;
+  display: flex;
+  justify-content: space-around;
+}
+.header > div > .el-input {
+  padding: 0px 20px;
+  background-color: #fff;
+  border-radius: 20px;
+}
+.header > div > div > .el-input__inner {
+  width: 300px;
+  border: none;
+}
+.header > div {
+  display: flex;
+  align-items: center;
+}
+.header > div:first-child {
+  width: 100px;
+}
+.content {
+  width: 100%;
+  height: calc(100vh - 70px);
+  display: flex;
+}
+.content > div:first-child {
+  width: 100px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  box-shadow: 3px 0px 2px 1px #f3f3f3;
+}
+.left-bar > div {
+  width: 100px;
+  margin-top: 10px;
+  padding-top: 10px;
   text-align: center;
-  color: #2c3e50;
+  height: 90px;
+  cursor: pointer;
+}
+.uncheck-bar:hover {
+  background: radial-gradient(closest-corner at 85%, #f9dd32, #fff);
 }
 
-nav {
-  padding: 30px;
-}
-
-nav a {
+.left-bar > div > i {
+  font-size: 40px;
   font-weight: bold;
-  color: #2c3e50;
 }
-
-nav a.router-link-exact-active {
-  color: #42b983;
+.left-bar > div > p {
+  margin: 10px 0;
 }
 </style>
