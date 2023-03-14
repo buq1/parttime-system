@@ -7,7 +7,10 @@ import {
  DropdownMenu,
  DropdownItem,
  Select,
- Option
+ Option,
+ Carousel,
+ CarouselItem,
+ Image
 }from 'element-ui'
 
 Vue.use(Cascader)
@@ -18,3 +21,6 @@ Vue.use(DropdownItem)
 Vue.use(DropdownMenu)
 Vue.use(Select)
 Vue.use(Option)
+Vue.use(Carousel)
+Vue.use(CarouselItem)
+Vue.use(Image)

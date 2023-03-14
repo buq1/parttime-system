@@ -69,11 +69,19 @@ export default {
       this.isIndex = val
       switch (val) {
         case 1:
+          this.$router.push({ path: '/' })
           break
         case 2:
+          this.$router.push({ path: '/postjob' })
           break
         case 3:
           this.$router.push({ path: '/map' })
+          break
+        case 4:
+          this.$router.push({ path: '/info' })
+          break
+        default:
+          this.$router.push({ path: '/personal' })
           break
       }
     },
@@ -85,6 +93,15 @@ export default {
     },
     exitLogin() {
       console.log('exit')
+    }
+  },
+  watch: {
+    $route(to) {
+      switch (to.path) {
+        case '/map':
+          this.isIndex = 3
+          break
+      }
     }
   }
 }
@@ -137,7 +154,12 @@ body {
   height: 100%;
   display: flex;
   align-items: center;
+  z-index: 2;
   box-shadow: 3px 0px 2px 1px #f3f3f3;
+}
+.content > div:nth-child(2) {
+  width: calc(100vw - 100px);
+  height: 100%;
 }
 .left-bar > div {
   width: 100px;

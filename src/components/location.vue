@@ -14,12 +14,17 @@ export default {
   data() {
     return {
       isShow: false,
-      options: [],
-      checkedCity: '厦门'
+      options: []
     }
   },
   created() {
     this.options = oData.provinceCityDataLabel
+    this.getCurrentCity()
+  },
+  computed: {
+    checkedCity() {
+      return this.$store.state.currentCity.city
+    }
   },
   methods: {
     checkShow() {
@@ -29,16 +34,18 @@ export default {
       })
     },
     checkCity(city) {
-      this.checkedCity = city[1]
+      let pc = { province: city[0], city: city[1] }
+      this.$store.commit('ADD_TO_CITY', pc)
       this.isShow = false
     },
     showChange(v) {
       const dom = document.getElementsByClassName('el-cascader__dropdown')
-      console.log(dom[0].style.display)
-      console.log(dom[0].style.display == 'none')
       if (dom[0].style.display == 'none' && this.isShow) {
         this.isShow = false
       }
+    },
+    getCurrentCity() {
+      console.log(navigator.geolocation)
     }
   }
 }
