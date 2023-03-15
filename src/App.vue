@@ -159,7 +159,7 @@ body {
 }
 .content > div:nth-child(2) {
   width: calc(100vw - 100px);
-  height: 100%;
+  height: inherit;
 }
 .left-bar > div {
   width: 100px;

@@ -10,7 +10,8 @@ import {
  Option,
  Carousel,
  CarouselItem,
- Image
+ Image,
+ Row,Col,Card
 }from 'element-ui'
 
 Vue.use(Cascader)
@@ -24,3 +25,6 @@ Vue.use(Option)
 Vue.use(Carousel)
 Vue.use(CarouselItem)
 Vue.use(Image)
+Vue.use(Row)
+Vue.use(Col)
+Vue.use(Card)

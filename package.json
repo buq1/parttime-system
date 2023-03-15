@@ -8,6 +8,8 @@
   },
   "dependencies": {
     "element-ui": "^2.15.13",
+    "node-sass": "^5.0.0",
+    "sass-loader": "^10.4.1",
     "vue": "^2.6.14",
     "vue-baidu-map": "^0.21.22",
     "vue-router": "^3.5.1",

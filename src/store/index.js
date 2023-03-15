@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import cityData from '@/utils/cityData' 
 
 Vue.use(Vuex)
 
@@ -88,19 +89,138 @@ export default new Vuex.Store({
       {
         cid:'jzzl020',
         cname:'电商'
-      }
-
-    ]
+      },
+      {cid:'jzzl021',
+    cname:'地推'},
+    {
+      cid:'jzzl022',
+      cname:'广告监测'
+    },
+    {
+      cid:'jzzl023',
+      cname:'家政'
+    },
+    {
+      cid:'jzzl024',
+      cname:'代理'
+    },
+    {
+      cid:'jzzl025',
+      cname:'主播'
+    },
+    {
+      cid:'jzzl026',
+      cname:'摄影剪辑'
+    },
+    {
+      cid:'jzzl027',
+      cname:'客服'
+    },
+    {
+      cid:'jzzl028',
+      cname:'线上教师'
+    },
+    {
+      cid:'jzzl029',
+      cname:'信息标注'
+    },
+    {
+      cid:'jzzl030',
+      cname:'会展活动'
+    },
+    {
+      cid:'jzzl031',
+      cname:'手机任务'
+    },
+    {
+      cid:'jzzl032',
+      cname:'快递分拣'
+    },
+    {
+      cid:'jzzl033',
+      cname:'文案编辑'
+    },
+    {
+      cid:'jzzl034',
+      cname:'送餐员'
+    },
+    {
+      cid:'jzzl035',
+      cname:'调研'
+    },
+    {
+      cid:'jzzl036',
+      cname:'实习'
+    },
+    {
+      cid:'jzzl037',
+      cname:'服务员'
+    },
+    {
+      cid:'jzzl038',
+      cname:'厂工'
+    },
+    {
+      cid:'jzzl039',
+      cname:'设计'
+    },
+    {
+      cid:'jzzl040',
+      cname:'文员'
+    },
+    {
+      cid:'jzzl041',
+      cname:'派单'
+    },
+    {
+      cid:'jzzl042',
+      cname:'家教'
+    },
+    {
+      cid:'jzzl043',
+      cname:'演出'
+    },
+    {
+      cid:'jzzl044',
+      cname:'翻译'
+    },
+    {
+      cid:'jzzl045',
+      cname:'促销'
+    },
+    {
+      cid:'jzzl046',
+      cname:'安保'
+    },
+    {
+      cid:'jzzl047',
+      cname:'销售导购'
+    },
+    {
+      cid:'jzzl048',
+      cname:'其他'
+    }
+                                
+    ],
+    countyList:[]
   },
   getters: {
   },
   mutations: {
     ADD_TO_CITY(state,payload){
-
       state.currentCity = payload
+    },
+    GET_COUNTY(state,payload){
+      
+      state.countyList = cityData.getCounty(payload)
     }
   },
   actions: {
+    // getCounty(context){
+    //    const {commit}=context
+    //    const {state} =context 
+    //  commit('GET_COUNTY',cityData.getCounty(state.currentCity))
+    // }
   },
   modules: {
   }

@@ -1,5 +1,5 @@
 <template>
-  <div class="i-nav">
+  <div class="i-nav scroller">
     <el-carousel :interval="4000" type="card" height="400px">
       <el-carousel-item v-for="item in imageList" :key="item.id">
         <router-link :to="item.url">
@@ -51,20 +51,41 @@
           <div class="check-button" v-for="item in category" :key="item.cid">
             {{ item.cname }}
           </div>
-          <el-dropdown>
-            <div class="check-button" v-if="category.length >= 14">更多</div>
-            <el-dropdown-menu>
-              <el-dropdown-item>111</el-dropdown-item>
+          <el-dropdown placement="bottom-end" trigger="click">
+            <div class="check-button" @click.stop="showCa()" v-if="category.length >= 14">更多</div>
+            <el-dropdown-menu :append-to-body="false" class="dropdown-container">
+              <el-dropdown-item v-for="item in surplusCa" :key="item.cid">
+                <div class="check-button">
+                  {{ item.cname }}
+                </div>
+              </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
         <div class="split-line"></div>
       </div>
-      <div></div>
+      <div class="check-col-right">
+        <div class="check-button">不限</div>
+        <div class="check-button" v-for="item in countyList" :key="item.value">
+          {{ item.label }}
+        </div>
+        <el-dropdown placement="bottom-end" trigger="click" v-if="countyList.length >= 10">
+          <div class="check-button" @click.stop="showCounty()">更多</div>
+          <el-dropdown-menu>
+            <el-dropdown-item v-for="item in surplusCy" :key="item.value">
+              {{ item.label }}
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
+    </div>
+    <div class="job-grid">
+      <JobGrid></JobGrid>
     </div>
   </div>
 </template>
 <script>
+import JobGrid from '@/components/JobGrid.vue'
 export default {
   data() {
     return {
@@ -99,19 +120,65 @@ export default {
           src: require('../../assets/banner6.png'),
           url: ''
         }
-      ]
+      ],
+      surplusCa: [],
+      surplusCy: []
     }
+  },
+  components: {
+    JobGrid
   },
   computed: {
     category() {
       if (this.$store.state.category.length < 15) return this.$store.state.category
       else return this.$store.state.category.slice(0, 14)
+    },
+    countyList() {
+      if (this.$store.state.countyList.length > 10) {
+        return this.$store.state.countyList.slice(0, 10)
+      }
+      return this.$store.state.countyList
+    }
+  },
+  methods: {
+    showCa() {
+      if (!this.surplusCa.length > 0) {
+        this.surplusCa = this.$store.state.category.slice(14, this.$store.state.category.length)
+      }
+    },
+    showCounty() {
+      this.surplusCy = this.$store.state.countyList.slice(10, this.$store.state.countyList.length)
     }
   }
 }
 </script>
 
 <style scoped>
+.job-grid {
+  margin-top: 15px;
+  width: 100%;
+  height: auto;
+}
+.check-col-right {
+  display: flex;
+  flex-wrap: wrap;
+}
+.dropdown-container {
+  display: flex;
+  flex-wrap: wrap;
+  position: absolute;
+  width: 735px;
+  top: 30px !important;
+}
+.el-dropdown {
+  position: relative;
+}
+.dropdown-container /deep/ .el-dropdown-menu__item {
+  padding: 0;
+  margin: 0;
+  width: 90px;
+  height: 40px;
+}
 .check-button {
   width: 70px;
   height: 30px;
@@ -184,13 +251,13 @@ export default {
   display: flex;
 }
 .check-col > div:first-child {
-  width: 400px;
+  width: 390px;
 }
 .check-col > div:nth-child(2) {
   width: 800px;
 }
 .check-col > div:nth-child(3) {
-  width: 400px;
+  width: 540px;
 }
 .col-style {
   padding: 16px 16px 0px 16px;
@@ -232,8 +299,29 @@ export default {
 .i-nav {
   padding: 20px 0px;
   width: 100%;
+  height: inherit;
+  box-sizing: border-box;
   background-color: #f6f6f8;
+  overflow-y: scroll;
 }
+.scroller::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scroller::-webkit-scrollbar-track {
+  background-color: transparent;
+  -webkit-border-radius: 2em;
+  -moz-border-radius: 2em;
+  border-radius: 2em;
+}
+.scroller::-webkit-scrollbar-thumb {
+  background-color: rgb(147, 147, 153, 0.5);
+  -webkit-border-radius: 2em;
+  -moz-border-radius: 2em;
+  border-radius: 2em;
+}
+
 .img {
   width: 100%;
   height: 100%;

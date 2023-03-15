@@ -10613,5 +10613,15 @@ export default {
             }
         });
         return Array.isArray(val) ? label : label[0];
+    },
+    //获取区列表
+    getCounty(val){
+
+       const c = cityData.find(item =>{return item.label==val.province})
+       const countyList = c.children.find(item => {return item.label == val.city})
+        // province:'福建省',
+        // city:'厦门市'
+        return countyList.children
     }
+
 }

@@ -29,6 +29,10 @@ const routes = [
     path:'/personal',
     name:'myinfo',
     component:()=>import('../views/personalCenter/index')
+  },{
+    path:'/test',
+    name:'test',
+    component:()=>import('../views/indexView/test.vue')
   }
 ]
 

@@ -2,7 +2,7 @@
   <div>
     <div class="l-nav">
       <el-cascader @blur="showChange($event)" :show-all-levels="false" ref="checkInput" v-show="isShow" placeholder="试试搜索城市" :options="options" @change="checkCity($event)" filterable> </el-cascader>
-      <span v-show="!isShow" @click="checkShow()">{{ checkedCity }}</span>
+      <span v-show="!isShow" @click="checkShow()">{{ checkedCity.city }}</span>
       <i v-show="!isShow" class="el-icon-arrow-down"></i>
     </div>
   </div>
@@ -20,10 +20,16 @@ export default {
   created() {
     this.options = oData.provinceCityDataLabel
     this.getCurrentCity()
+    if (this.countyList.length === 0) {
+      this.$store.commit('GET_COUNTY', this.checkedCity)
+    }
   },
   computed: {
     checkedCity() {
-      return this.$store.state.currentCity.city
+      return this.$store.state.currentCity
+    },
+    countyList() {
+      return this.$store.state.countyList
     }
   },
   methods: {
@@ -36,6 +42,7 @@ export default {
     checkCity(city) {
       let pc = { province: city[0], city: city[1] }
       this.$store.commit('ADD_TO_CITY', pc)
+      this.$store.commit('GET_COUNTY', pc)
       this.isShow = false
     },
     showChange(v) {
