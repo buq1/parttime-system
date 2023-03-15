@@ -169,6 +169,7 @@ export default {
   position: absolute;
   width: 735px;
   top: 30px !important;
+  background-color: #f7eab6;
 }
 .el-dropdown {
   position: relative;

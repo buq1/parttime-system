@@ -41,6 +41,7 @@ export default {
     },
     checkCity(city) {
       let pc = { province: city[0], city: city[1] }
+      console.log(pc)
       this.$store.commit('ADD_TO_CITY', pc)
       this.$store.commit('GET_COUNTY', pc)
       this.isShow = false

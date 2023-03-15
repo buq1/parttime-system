@@ -10621,7 +10621,11 @@ export default {
        const countyList = c.children.find(item => {return item.label == val.city})
         // province:'福建省',
         // city:'厦门市'
+        if(countyList.children){
         return countyList.children
+        }else{
+            return c.children
+        }
     }
 
 }
