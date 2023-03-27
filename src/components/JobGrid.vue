@@ -9,7 +9,7 @@
               <div>
                 <p>250元/天</p>
                 <span class="jx-title">网站精选</span>
-                <span class="jl-title">距离<5km </span>
+                <span class="jl-title">距离&lt;5km </span>
               </div>
             </div>
             <div class="job-name">京东分拣员</div>

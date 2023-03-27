@@ -33,6 +33,15 @@ const routes = [
     path:'/test',
     name:'test',
     component:()=>import('../views/indexView/test.vue')
+  },{
+    path:'/tobezpf',
+    name:'cwzpf',
+    component:()=>import('../views/postJob/tobezp.vue')
+  },
+  {
+    path:'/newmechanism',
+    name:'mecha',
+    component:()=>import('../views/postJob/newmecha.vue')
   }
 ]
 

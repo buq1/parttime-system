@@ -5,7 +5,7 @@
         <Location></Location>
       </div>
       <div>
-        <el-input :placeholder="searchDefaultText" prefix-icon="el-icon-search" v-model="searchText" @change="sendSearch($event)"></el-input>
+        <el-input v-show="s_show" :placeholder="searchDefaultText" prefix-icon="el-icon-search" v-model="searchText" @change="sendSearch($event)"></el-input>
       </div>
       <div>
         <p v-if="!loginStatus">登录</p>
@@ -58,7 +58,8 @@ export default {
       isIndex: 1,
       searchDefaultText: '大家都在搜索：',
       searchText: '',
-      loginStatus: true
+      loginStatus: true,
+      s_show: true
     }
   },
   components: {
@@ -98,9 +99,28 @@ export default {
   watch: {
     $route(to) {
       switch (to.path) {
+        case '/':
+          this.isIndex = 1
+          this.s_show = true
+          break
         case '/map':
           this.isIndex = 3
+          this.s_show = true
           break
+        case '/postjob':
+          this.isIndex = 2
+          this.s_show = false
+          break
+        case '/info':
+          this.isIndex = 4
+          this.s_show = false
+          break
+        case '/personal':
+          this.isIndex = 5
+          this.s_show = false
+          break
+        default:
+          this.s_show = false
       }
     }
   }
