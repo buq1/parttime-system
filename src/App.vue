@@ -8,10 +8,19 @@
         <el-input v-show="s_show" :placeholder="searchDefaultText" prefix-icon="el-icon-search" v-model="searchText" @change="sendSearch($event)"></el-input>
       </div>
       <div>
-        <p v-if="!loginStatus">登录</p>
+        <p
+          v-if="!loginStatus"
+          class="loginbutton"
+          @click="
+            DialogVisible = true
+            dialogTitle = '登录'
+          "
+        >
+          登录
+        </p>
         <div v-else>
           <el-dropdown :show-timeout="150" @command="exitLogin($event)">
-            <el-avatar class="el-dropdown-link" :size="45" src="https://empty" @error="errorHandler">
+            <el-avatar class="el-dropdown-link" :size="45" :src="hLogo" @error="errorHandler">
               <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png" />
             </el-avatar>
             <el-dropdown-menu>
@@ -48,22 +57,34 @@
       </div>
       <div><router-view /></div>
     </div>
+    <el-dialog :title="dialogTitle" :visible.sync="DialogVisible" :close-on-click-modal="false" width="30%">
+      <login></login>
+    </el-dialog>
   </div>
 </template>
 <script>
+import login from './components/login.vue'
 import Location from './components/location.vue'
 export default {
   data() {
     return {
       isIndex: 1,
       searchDefaultText: '大家都在搜索：',
-      searchText: '',
-      loginStatus: true,
-      s_show: true
+      searchText: '', //搜索内容
+      dialogTitle: '',
+      DialogVisible: false,
+      s_show: true, //搜索框显示与隐藏
+      hLogo: '' //头像
     }
   },
   components: {
-    Location
+    Location,
+    login
+  },
+  computed: {
+    loginStatus() {
+      return this.$store.state.loginStatus
+    }
   },
   methods: {
     switchTab(val) {
@@ -128,6 +149,12 @@ export default {
 </script>
 
 <style>
+.loginbutton {
+  cursor: pointer;
+}
+.loginbutton:hover {
+  color: cadetblue;
+}
 html,
 body {
   margin: 0;

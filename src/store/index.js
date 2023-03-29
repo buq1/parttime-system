@@ -202,7 +202,15 @@ export default new Vuex.Store({
     }
                                 
     ],
-    countyList:[]
+    countyList:[],
+    logginStatus:false,
+    user:{
+      id:'1008611',
+      role:'1',
+      name:'',
+      avator:'',
+      star:''
+    }
   },
   getters: {
   },

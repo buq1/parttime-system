@@ -30,10 +30,6 @@ const routes = [
     name:'myinfo',
     component:()=>import('../views/personalCenter/index')
   },{
-    path:'/test',
-    name:'test',
-    component:()=>import('../views/indexView/test.vue')
-  },{
     path:'/tobezpf',
     name:'cwzpf',
     component:()=>import('../views/postJob/tobezp.vue')
