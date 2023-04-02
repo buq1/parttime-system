@@ -1,33 +1,31 @@
 <template>
   <div class="i-nav scroller">
     <el-carousel :interval="4000" type="card" height="400px">
-      <el-carousel-item v-for="item in imageList" :key="item.id">
-        <router-link :to="item.url">
-          <el-image :src="item.src" class="img"></el-image>
-        </router-link>
+      <el-carousel-item v-for="item in imageList" :key="item.id" :title="item.title">
+        <el-image @click="switchNotice(item.id)" :src="item.src" class="img"></el-image>
       </el-carousel-item>
     </el-carousel>
     <div class="middle-col">
       <div>
-        <div class="col-style">
+        <div class="col-style" @click="$router.push({ name: 'shortTerm' })">
           <div>
             <i class="el-icon-time"></i>
           </div>
           <p>短期兼职</p>
         </div>
-        <div class="col-style">
+        <div class="col-style" @click="$router.push({ name: 'longTerm' })">
           <div>
             <i class="el-icon-suitcase"></i>
           </div>
           <p>长期兼职</p>
         </div>
-        <div class="col-style">
+        <div class="col-style" @click="$router.push({ name: 'network' })">
           <div>
             <i class="el-icon-monitor"></i>
           </div>
           <p>网络兼职</p>
         </div>
-        <div class="col-style">
+        <div class="col-style" @click="$router.push({ name: 'vacation' })">
           <div>
             <i class="el-icon-date"></i>
           </div>
@@ -93,32 +91,38 @@ export default {
         {
           id: 1,
           src: require('../../assets/banner1.png'),
-          url: ''
+
+          title: '大学生兼职管理系统'
         },
         {
           id: 2,
           src: require('../../assets/banner2.png'),
-          url: ''
+
+          title: '大学生兼职管理系统'
         },
         {
           id: 3,
           src: require('../../assets/banner3.jpg'),
-          url: ''
+
+          title: '大学生兼职管理系统'
         },
         {
           id: 4,
           src: require('../../assets/banner4.jpg'),
-          url: ''
+
+          title: '大学生兼职管理系统'
         },
         {
           id: 5,
           src: require('../../assets/banner5.jpg'),
-          url: ''
+
+          title: '大学生兼职管理系统'
         },
         {
           id: 6,
           src: require('../../assets/banner6.png'),
-          url: ''
+
+          title: '大学生兼职管理系统'
         }
       ],
       surplusCa: [],
@@ -141,6 +145,9 @@ export default {
     }
   },
   methods: {
+    switchNotice(v) {
+      this.$router.push({ path: `/notice/${v}` })
+    },
     showCa() {
       if (!this.surplusCa.length > 0) {
         this.surplusCa = this.$store.state.category.slice(14, this.$store.state.category.length)

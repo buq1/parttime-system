@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import cityData from '@/utils/cityData' 
+import { postRequest } from '@/axios/api'
+import vue from '@/main'
+
 
 Vue.use(Vuex)
 
@@ -203,11 +206,12 @@ export default new Vuex.Store({
                                 
     ],
     countyList:[],
-    logginStatus:false,
+    loginStatus:false,
+
     user:{
       id:'1008611',
       role:'1',
-      name:'',
+      username:'',
       avator:'',
       star:''
     }
@@ -218,10 +222,16 @@ export default new Vuex.Store({
     ADD_TO_CITY(state,payload){
       state.currentCity = payload
     },
-    GET_COUNTY(state,payload){
-      
+    GET_COUNTY(state,payload){  
       state.countyList = cityData.getCounty(payload)
-    }
+    },
+    CHANGE_LOGINSTATUS(state){
+        state.loginStatus = !state.loginStatus
+    },
+    ADD_USER(state,payload){
+        state.user = payload
+    },
+
   },
   actions: {
     // getCounty(context){
@@ -229,6 +239,40 @@ export default new Vuex.Store({
     //    const {state} =context 
     //  commit('GET_COUNTY',cityData.getCounty(state.currentCity))
     // }
+    loginUser({commit},payload){
+      return new Promise((resolve,reject)=>{
+      postRequest('/userlogin', payload).then(
+        res => {  
+          if (res.status >= 200 && res.status < 300) {
+            if (res.data.code == 400) {
+              vue.$message.error(res.data.message)
+              reject(res.data.message)
+            }else if(res.data.code ==20002){
+             vue.$message.warning(res.data.message) 
+             reject(res.data.message)  
+            } else {
+              commit('ADD_USER',res.data.data)
+              commit('CHANGE_LOGINSTATUS')
+              resolve(res.data.data)
+
+            }
+          } else {
+            vue.$message.error('网络或服务器错误！')
+            reject()
+          }
+
+
+
+
+        },
+        error => {
+          reject(error)
+          console.log(error)
+        }
+      )
+    })
+    }
+
   },
   modules: {
   }

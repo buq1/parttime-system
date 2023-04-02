@@ -1,7 +1,7 @@
 <template>
   <div class="j-nav">
     <el-row type="flex" justify="flex-start">
-      <el-col :xs="12" :md="8" :xl="4" v-for="i in 100">
+      <el-col :xs="12" :md="8" :xl="4" v-for="i in 100" @click="switchJob(item.id)">
         <div class="card-box">
           <el-card shadow="hover">
             <div>
@@ -34,6 +34,9 @@ export default {
     return {
       imgUrl: require('@/assets/jobimg/jingdong.png')
     }
+  },
+  methods: {
+    switchJob(e) {}
   }
 }
 </script>

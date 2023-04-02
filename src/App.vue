@@ -5,7 +5,7 @@
         <Location></Location>
       </div>
       <div>
-        <el-input v-show="s_show" :placeholder="searchDefaultText" prefix-icon="el-icon-search" v-model="searchText" @change="sendSearch($event)"></el-input>
+        <el-input v-show="s_show" :placeholder="searchDefaultText" prefix-icon="el-icon-search" v-model="searchText" @input="sendSearch($event)"></el-input>
       </div>
       <div>
         <p
@@ -58,7 +58,12 @@
       <div><router-view /></div>
     </div>
     <el-dialog :title="dialogTitle" :visible.sync="DialogVisible" :close-on-click-modal="false" width="30%">
-      <login></login>
+      <login
+        @loginsuccess="
+          DialogVisible = false
+          hLogo = $store.state.user.avator
+        "
+      ></login>
     </el-dialog>
   </div>
 </template>
@@ -74,7 +79,8 @@ export default {
       dialogTitle: '',
       DialogVisible: false,
       s_show: true, //搜索框显示与隐藏
-      hLogo: '' //头像
+      hLogo: '', //头像
+      initTime: null
     }
   },
   components: {
@@ -84,6 +90,20 @@ export default {
   computed: {
     loginStatus() {
       return this.$store.state.loginStatus
+    }
+  },
+  created() {
+    if (this.Cookies.get('user')) {
+      console.log(JSON.parse(this.Cookies.get('user')))
+      this.$store.commit('CHANGE_LOGINSTATUS')
+      this.$store.commit('ADD_USER', JSON.parse(this.Cookies.get('user')))
+      this.hLogo = this.$store.state.user.avator
+    } else {
+      if (sessionStorage.getItem('user')) {
+        this.$store.commit('CHANGE_LOGINSTATUS')
+        this.$store.commit('ADD_USER', JSON.parse(sessionStorage.getItem('user')))
+        this.hLogo = this.$store.state.user.avator
+      }
     }
   },
   methods: {
@@ -108,13 +128,35 @@ export default {
       }
     },
     sendSearch(v) {
-      console.log(v)
+      if (this.$route.path != '/map') {
+        if (this.initTime != null) clearTimeout(this.initTime)
+        this.initTime = setTimeout(() => {
+          this.$router.replace({ path: `/search/${v}` })
+        }, 1000)
+      }
+      // let now = new Date()
+      // if (this.initTime == null) {
+      //   this.initTime = now
+      //   this.$router.replace({ path: `/search/${v}` })
+      // } else {
+      //   console.log(now - this.initTime)
+      //   if (now - this.initTime > 3000) {
+      //     this.initTime = now
+      //     this.$router.replace({ path: `/search/${v}` })
+      //   }
+      // }
     },
     errorHandler() {
       return true
     },
-    exitLogin() {
-      console.log('exit')
+    exitLogin(e) {
+      if (e == 'exit') {
+        this.Cookies.remove('user')
+        sessionStorage.removeItem('user')
+        this.$store.commit('CHANGE_LOGINSTATUS')
+        this.$store.commit('ADD_USER', null)
+        this.hLogo = null
+      }
     }
   },
   watch: {
@@ -141,7 +183,7 @@ export default {
           this.s_show = false
           break
         default:
-          this.s_show = false
+          this.s_show = true
       }
     }
   }

@@ -5,9 +5,11 @@ import store from './store'
 import './config/index.js'
 import 'element-ui/lib/theme-chalk/index.css'
 
-
+import Cookies from 'js-cookie'
 
 Vue.config.productionTip = false
+
+Vue.prototype.Cookies = Cookies
 
 let vue = new Vue({
   router,

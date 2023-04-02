@@ -29,6 +29,7 @@
 
 <script>
 import { postRequest } from '@/axios/api'
+
 export default {
   name: 'login',
   data() {
@@ -60,37 +61,26 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           let data = {
-            adminId: this.ruleForm.account,
-            adminPassword: this.ruleForm.password
+            username: this.ruleForm.account,
+            password: this.ruleForm.password
           }
           if (!this.zc) {
-            postRequest(url.login, data).then(
+            this.$store.dispatch('loginUser', data).then(
               res => {
-                if (res.status >= 200 && res.status < 300) {
-                  if (res.data.code == 400) {
-                    this.$message.error(res.data.message)
-                    return
-                  } else {
-                    sessionStorage.setItem('token', res.data.data.token)
-                    sessionStorage.setItem('username', res.data.data.username)
-                    this.$router.push({ name: 'home' })
-                  }
+                if (this.ruleForm.verify) {
+                  this.Cookies.remove('user')
+                  this.Cookies.set('user', JSON.stringify(res), { expires: 7 })
                 } else {
-                  this.$message.error('网络或服务器错误！')
+                  sessionStorage.setItem('user', JSON.stringify(res))
                 }
-                //   if (this.ruleForm.verify) {
-                //     localStorage.setItem('token', res.data.token)
-                //   } else {
-                //     sessionStorage.setItem('token', res.data.token)
-                //   }
-                //   setTimeout(() => {
-                //     this.$router.push('/')
-                //   }, 2000)
+                this.$emit('loginsuccess')
               },
               error => {
                 console.log(error)
               }
             )
+            if (this.$store.state.loginStatus) {
+            }
           } else {
             postRequest(url.login, data)
               .then(res => {
@@ -131,7 +121,8 @@ export default {
 
 <style scoped>
 .cancelbutton {
-  transform: translate(-50px, -20px);
+  transform: translate(-40%, -20px);
+  width: 50px;
   cursor: pointer;
   font-size: 16px;
   color: #767677;

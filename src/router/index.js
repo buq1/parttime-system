@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import IndexView from '../views/indexView/index'
+import SearchView from '../views/resultList/searchList'
 
 Vue.use(VueRouter)
 
@@ -38,7 +39,37 @@ const routes = [
     path:'/newmechanism',
     name:'mecha',
     component:()=>import('../views/postJob/newmecha.vue')
-  }
+  },
+  {
+    path:'/search/:text',
+    name:'search',
+    component:SearchView
+  },{
+    path:'/shortterm',
+    name:'shortTerm',
+    component:()=>import('../views/resultList/shortTerm')
+  },{
+    path:'/longterm',
+    name:'longTerm',
+    component:()=>import('../views/resultList/longTerm')
+  },{
+    path:'/network',
+    name:'network',
+    component:()=>import('../views/resultList/network')
+  },{
+    path:'/vacation',
+    name:'vacation',
+    component:()=>import('../views/resultList/vacation')
+  },
+  {
+    path:'/notice/:nid',
+  name:'notice',
+  component:()=>import('../views/notice/index')
+},{
+  path:'/job/:jid',
+  name:'job',
+  component:()=>import('../views/jobInfo/index')
+}
 ]
 
 const router = new VueRouter({

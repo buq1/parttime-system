@@ -107,7 +107,6 @@ import search from '@/components/search.vue'
 export default {
   data() {
     return {
-      role: true,
       form: {
         name: '',
         xz: '',
@@ -130,6 +129,11 @@ export default {
   },
   created() {
     this.typeList = this.$store.state.category
+  },
+  computed: {
+    role() {
+      return this.$store.state.user.role
+    }
   },
   methods: {
     switchToBe() {
