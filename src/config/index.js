@@ -28,9 +28,11 @@ import {
  Switch,
  Autocomplete,
  Notification,
- TimePicker
+ TimePicker,
+ Rate
 }from 'element-ui'
 
+Vue.use(Rate)
 Vue.use(TimePicker)
 Vue.use(Autocomplete)
 Vue.use(Switch)

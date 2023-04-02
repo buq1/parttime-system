@@ -1,9 +1,9 @@
 <template>
   <div class="j-nav">
     <el-row type="flex" justify="flex-start">
-      <el-col :xs="12" :md="8" :xl="4" v-for="i in 100" @click="switchJob(item.id)">
+      <el-col :xs="12" :md="8" :xl="4" v-for="i in 100">
         <div class="card-box">
-          <el-card shadow="hover">
+          <el-card shadow="hover"  @click.native="switchJob(i)">
             <div>
               <el-image :src="imgUrl" lazy></el-image>
               <div>
@@ -35,8 +35,16 @@ export default {
       imgUrl: require('@/assets/jobimg/jingdong.png')
     }
   },
+  props:{
+    JobList:{
+      type:Object,
+      require
+    }
+  },
   methods: {
-    switchJob(e) {}
+    switchJob(e) {
+      this.$router.push({path:`/job/${e}`})
+    }
   }
 }
 </script>

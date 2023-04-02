@@ -5,7 +5,7 @@
         <Location></Location>
       </div>
       <div>
-        <el-input v-show="s_show" :placeholder="searchDefaultText" prefix-icon="el-icon-search" v-model="searchText" @input="sendSearch($event)"></el-input>
+        <el-input v-show="s_show" :placeholder="searchDefaultText" prefix-icon="el-icon-search" v-model.trim="searchText" @input="sendSearch($event)"></el-input>
       </div>
       <div>
         <p
@@ -131,6 +131,8 @@ export default {
       if (this.$route.path != '/map') {
         if (this.initTime != null) clearTimeout(this.initTime)
         this.initTime = setTimeout(() => {
+          if(v == null || v == "" || v == undefined) v = 'all'
+          console.log( v == null || v == "" || v == undefined)
           this.$router.replace({ path: `/search/${v}` })
         }, 1000)
       }
@@ -183,6 +185,7 @@ export default {
           this.s_show = false
           break
         default:
+          this.isIndex = 6
           this.s_show = true
       }
     }
@@ -201,6 +204,7 @@ html,
 body {
   margin: 0;
   padding: 0;
+  user-select: none;
 }
 .el-dropdown-link {
   cursor: pointer;

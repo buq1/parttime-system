@@ -2,7 +2,7 @@
   <div class="j-nav">
     <div>
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item  @click.native="$router.go(-1)" class="backbutton">返回</el-breadcrumb-item>
         <el-breadcrumb-item>岗位详情</el-breadcrumb-item>
       </el-breadcrumb>
       <div class="header-nav">
@@ -29,21 +29,157 @@
         <span class="warning-text">提示: 凡收取费用，需缴纳押金的企业均有欺诈嫌疑，请您警惕！</span>
       </div>
       <div class="bottom-nav">
-        <div class="tab-tit"></div>
+        <div class="tab-tit">
+          <ul class="clearfix">
+            <li :class="showBottom==1?'car':''" @click="switchTab(1)">公司介绍</li>
+            <li :class="showBottom==2?'car':''" @click="switchTab(2)">工作环境</li>
+            <li :class="showBottom==3?'car':''" @click="switchTab(3)">在招兼职</li>
+            <li :class="showBottom==4?'car':''" @click="switchTab(4)">公司评价</li>
+          </ul>
+        </div>
+        <div class="tab-con">
+           <div class="company-wrap" v-show="showBottom==1?true:false">
+            <div class="company-img">
+              <el-imgage></el-imgage>
+            </div>
+            <div class="company-info">
+              <span>厦门市信者1科技有限公司</span>
+              <el-rate
+  v-model="value"
+  disabled
+  show-score
+  text-color="#ff9900"
+  score-template="{value}">
+</el-rate>
+              <p>
+                <span>公司介绍:</span>
+                11111111111111
+              </p>
+              <p>
+                <span>公司地址:</span>
+                22222222222222222
+              </p>
+            </div>
+           </div>
+           <div v-show="showBottom==2?true:false">公司环境</div>
+           <div v-show="showBottom==3?true:false">在招兼职</div>
+           <div v-show="showBottom==4?true:false">公司评价</div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  data(){
+    return{
+      showBottom:1,
+      value:3.7
+    }
+  },
+  methods:{
+    switchTab(v){
+       switch(v){
+       case 1:
+        this.showBottom = 1
+        break;
+        case 2:
+          this.showBottom = 2
+          break
+        case 3: 
+        this.showBottom = 3
+        break
+        case 4:
+          this.showBottom = 4
+          break
+       }
+    }
+  }
+}
 </script>
 
 <style scoped>
+.company-info /deep/ .el-rate{
+float: right;
+}
+
+.company-info{
+  float: left;
+}
+.company-info>p{
+  font-size: 16px;
+  color: #aaa;
+  line-height: 1.5;
+  margin-top: 10px;
+  width: 900px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+}
+.company-info>p>span{
+  color: #333 !important;
+}
+.company-img{
+  width: 120px;
+  height: 120px;
+  border:1px solid #eee;
+  float: left;
+  margin-right: 20px;
+}
+.company-wrap{
+  overflow-wrap: break-word;
+  display: block;
+  overflow: hidden;
+  padding: 20px 4px;
+  clear: both;
+}
+.tab-con{
+  font-family: "微软雅黑","宋体";
+  padding: 16px 36px;
+  display: block;
+}
+.car{
+  border-bottom: 3px solid #ff7701;
+  color: #ff7701 !important;
+  margin-bottom: -1px;
+}
+.clearfix{
+  list-style: none;
+  margin:0;
+  padding: 0;
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+  box-sizing: border-box;
+}
+.clearfix>li{
+  float: left;
+  padding: 12px 0;
+  font-weight: 600;
+  color: #646464;
+  cursor: pointer;
+  margin-right: 40px;
+  display: list-item;
+}
+.clearfix::after{
+  content: '\0020';
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.backbutton{
+  cursor: pointer;
+}
 .tab-tit {
   width: 100%;
   height: 50px;
   border-bottom: #ddd solid 1px;
+  box-sizing: border-box;
 }
 .bottom-nav {
   width: 100%;
