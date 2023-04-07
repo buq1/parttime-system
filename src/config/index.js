@@ -29,9 +29,18 @@ import {
  Autocomplete,
  Notification,
  TimePicker,
- Rate
+ Rate,
+Table,
+TableColumn,
+MessageBox,
+Step,
+Steps
 }from 'element-ui'
 
+Vue.use(Step)
+Vue.use(Steps)
+Vue.use(Table)
+Vue.use(TableColumn)
 Vue.use(Rate)
 Vue.use(TimePicker)
 Vue.use(Autocomplete)
@@ -64,4 +73,5 @@ Vue.use(Col)
 Vue.use(Card)
 
 Vue.prototype.$message = Message
+Vue.prototype.MessageBox = MessageBox
 Vue.prototype.$notify = Notification

@@ -69,6 +69,26 @@ const routes = [
   path:'/job/:jid',
   name:'job',
   component:()=>import('../views/jobInfo/index')
+},
+{
+  path:'/cv',
+  name:'cv',
+  component:()=>import('../views/personalCenter/cvManage')
+},
+{
+  path:'/sphistory',
+  name:'sphistory',
+  component:()=>import('../views/spHistory/index')
+},
+{
+  path:'/personalinfo',
+name:'pinfo',
+component:()=>import('../views/personalCenter/personalInfo')
+}
+,{
+  path:'/company',
+  name:'company',
+  component:()=>import('../views/personalCenter/company')
 }
 ]
 

@@ -1,6 +1,6 @@
 <template>
   <div class="p-nav">
-    <div v-if="role" class="r-nav">
+    <div v-if="role == 0" class="r-nav">
       <div>
         <el-button class="r-button" @click="switchToBe" round>成为招聘方</el-button>
       </div>
@@ -34,19 +34,14 @@
                     </el-select>
                   </el-form-item>
                   <el-form-item label="工作时间">
-                    <el-col :span="11">
-                      <el-time-picker type="date" placeholder="选择开始时间" v-model="form.time1" style="width: 100%"></el-time-picker>
-                    </el-col>
-                    <el-col class="line" :span="2">-</el-col>
-                    <el-col :span="11">
-                      <el-time-picker placeholder="选择结束时间" v-model="form.time2" style="width: 100%"></el-time-picker>
-                    </el-col>
+                    <el-time-picker is-range v-model="form.worktime" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" placeholder="选择时间范围"> </el-time-picker>
                   </el-form-item>
                   <el-form-item label="工作介绍">
                     <el-input type="textarea" v-model="form.desc"></el-input>
                   </el-form-item>
                   <el-form-item label="工作地址">
-                    <el-input class="idno-style" placeholder="输入工作地址" v-model="form.address"></el-input>
+                    <el-cascader placeholder="选择工作地址" style="margin-bottom: 15px" v-model="form.workarea" :options="cData"></el-cascader>
+                    <el-input class="idno-style" placeholder="输入详细工作地址" v-model="form.address"></el-input>
                   </el-form-item>
 
                   <el-form-item>
@@ -104,6 +99,7 @@
 
 <script>
 import search from '@/components/search.vue'
+import cityData from '../../utils/cityData'
 export default {
   data() {
     return {
@@ -111,12 +107,13 @@ export default {
         name: '',
         xz: '',
         type: '',
+        workarea: '',
         address: '',
         desc: '',
-        time1: '',
-        time2: '',
+        worktime: [new Date(2016, 9, 10, 8, 40), new Date(2016, 9, 10, 9, 40)],
         class: ''
       },
+      cData: cityData.cityData,
       typeList: [],
       tit1: '在招岗位',
       tit2: '历史岗位',
@@ -150,10 +147,10 @@ export default {
         name: '',
         xz: '',
         type: '',
+        workarea: '',
         address: '',
         desc: '',
-        time1: '',
-        time2: '',
+        worktime: [new Date(), new Date()],
         class: ''
       }
     }

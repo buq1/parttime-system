@@ -14,14 +14,7 @@
             <el-input class="f-name" placeholder="输入姓名" v-model="form.name"></el-input>
           </el-form-item>
           <el-form-item label="任职岗位">
-            <el-radio-group v-model="form.post">
-              <el-radio label="人事专员"></el-radio>
-              <el-radio label="人事主管"></el-radio>
-              <el-radio label="总经理"></el-radio>
-              <el-radio label="人力资源"></el-radio>
-              <el-radio label="老板"></el-radio>
-              <el-radio label="其它"></el-radio>
-            </el-radio-group>
+            <el-input v-model="form.post"></el-input>
           </el-form-item>
           <el-form-item label="身份证号码">
             <el-input class="idno-style" placeholder="输入身份证号码" v-model="form.idno"></el-input>
