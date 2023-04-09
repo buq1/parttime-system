@@ -210,7 +210,7 @@ export default new Vuex.Store({
 
     user:{
       id:'1008611',
-      role:'1',
+      role:'0',
       username:'',
       avator:'',
       star:''

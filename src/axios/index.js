@@ -24,7 +24,6 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
       // let res = JSON.parse(response.data);
-      console.log(response)
       return Promise.resolve(response);
    },
    error => {
