@@ -15,7 +15,7 @@
             <el-input class="n-s" v-model="form.name"></el-input>
           </el-form-item>
           <el-form-item label="公司LOGO">
-            <el-upload action="#" list-type="picture-card" :auto-upload="false" :limit="1" :on-exceed="throwOver">
+            <el-upload action="http://127.0.0.1:8088/up" :on-success="handleSuccess" :on-error="handleError" list-type="picture-card" name="f" :limit="1" :on-exceed="throwOver">
               <i slot="default" class="el-icon-plus"></i>
               <div slot="file" slot-scope="{ file }">
                 <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
@@ -87,12 +87,20 @@ export default {
         yyzz: ''
       },
       fileList: [],
-      dialogVisible: false
+      dialogVisible: false,
+      disabled: false,
+      dialogImageUrl: ''
     }
   },
   methods: {
+    handleSuccess(res, file, fileList) {
+      console.log(res)
+    },
+    handleError(err, file, fileList) {
+      console.log(err)
+    },
     handleRemove(file, fileList) {
-      console.log(1)
+      console.log(file)
     },
     handlePreview(file) {
       console.log(file)
