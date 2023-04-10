@@ -209,11 +209,11 @@ export default new Vuex.Store({
     loginStatus:false,
 
     user:{
-      id:'1008611',
-      role:'0',
-      username:'',
-      avator:'',
-      star:''
+      user_id:'1008611',
+      user_role:'0',
+      user_name:'',
+      user_avator:'',
+      user_star:''
     }
   },
   getters: {

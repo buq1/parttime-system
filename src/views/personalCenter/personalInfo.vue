@@ -7,7 +7,7 @@
       <div class="p-middle">
         <el-form ref="form" :model="form" label-width="80px">
           <el-form-item label="头像">
-            <el-upload class="avatar-uploader" action="#" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+            <el-upload class="avatar-uploader" action="http://127.0.0.1:8088/oss/policy" :show-file-list="false" :limit="1" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
               <img v-if="imageUrl" :src="imageUrl" class="avatar" />
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
@@ -80,8 +80,14 @@ export default {
     }
   },
   methods: {
+    init(){
+      this.form.username = this.$store.state.user.username
+      this.imageUrl = this.$store.state.user.avator
+    },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw)
+      this.form.avator = res.data.imageurl
+      console.log(res)
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg'

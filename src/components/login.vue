@@ -61,8 +61,8 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           let data = {
-            username: this.ruleForm.account,
-            password: this.ruleForm.password
+            user_name: this.ruleForm.account,
+            user_password: this.ruleForm.password
           }
           if (!this.zc) {
             this.$store.dispatch('loginUser', data).then(
@@ -73,6 +73,11 @@ export default {
                 } else {
                   sessionStorage.setItem('user', JSON.stringify(res))
                 }
+                this.ruleForm={
+        account: '',
+        password: '',
+        verify: false
+      }
                 this.$emit('loginsuccess')
               },
               error => {
@@ -82,7 +87,7 @@ export default {
             if (this.$store.state.loginStatus) {
             }
           } else {
-            postRequest(url.login, data)
+            postRequest("/userzc", data)
               .then(res => {
                 if (res.status >= 200 && res.status < 300) {
                   if (res.data.code == 400) {

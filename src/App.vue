@@ -79,7 +79,6 @@ export default {
       dialogTitle: '',
       DialogVisible: false,
       s_show: true, //搜索框显示与隐藏
-      hLogo: '', //头像
       initTime: null
     }
   },
@@ -90,6 +89,12 @@ export default {
   computed: {
     loginStatus() {
       return this.$store.state.loginStatus
+    },
+    hLogo:{
+     get(){
+      return this.$store.state.user.user_avator || ' '
+     },
+     set(val){}
     }
   },
   created() {
