@@ -13,13 +13,13 @@
             </el-upload>
           </el-form-item>
           <el-form-item label="用户名">
-            <el-input v-model="form.username"></el-input>
+            <el-input v-model="form.user_name"></el-input>
           </el-form-item>
           <el-form-item label="密码">
-            <el-input type="password" v-model="form.password"></el-input>
+            <el-input type="password" v-model="form.user_password"></el-input>
           </el-form-item>
           <el-form-item label="新密码">
-            <el-input type="password" v-model="form.pass" autocomplete="off"></el-input>
+            <el-input type="password" v-model="form.user_newpassword" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="确认新密码">
             <el-input type="password" v-model="form.checkpass" autocomplete="off"></el-input>
@@ -34,16 +34,16 @@
         <div class="xx-bar">
           <el-form ref="roleform" :model="roleForm" label-width="80px">
             <el-form-item label="姓名">
-              <el-input v-model="roleForm.name"></el-input>
+              <el-input v-model="roleForm.ri_name"></el-input>
             </el-form-item>
             <el-form-item label="联系电话">
-              <el-input v-model="roleForm.phone"></el-input>
+              <el-input v-model="roleForm.ri_phone"></el-input>
             </el-form-item>
             <el-form-item label="职位">
-              <el-input v-model="roleForm.name"></el-input>
+              <el-input v-model="roleForm.ri_position"></el-input>
             </el-form-item>
             <el-form-item label="任职公司">
-              <el-input disabled v-model="roleForm.gs"></el-input>
+              <el-input disabled v-model="gs"></el-input>
               <p>&nbsp;</p>
               <el-button type="danger" @click="onExit">退出公司</el-button>
             </el-form-item>
@@ -55,23 +55,26 @@
 </template>
 
 <script>
+import { postRequest } from '@/axios/api'
+
 export default {
   data() {
     return {
       form: {
-        username: '',
-        password: '',
-        avator: '',
-        pass: '',
+        user_name: '',
+        user_password: '',
+        user_avator: '',
+        user_newpassword: '',
         checkpass: ''
       },
       imageUrl: '',
       roleForm: {
-        name: '',
-        phone: '',
-        position: '',
-        gs: ''
-      }
+        ri_name: '',
+        ri_phone: '',
+        ri_position: '',
+        ri_id: ''
+      },
+      gs:''
     }
   },
   computed: {
@@ -79,10 +82,19 @@ export default {
       return this.$store.state.user.role
     }
   },
+  created(){
+    this.init()
+  },
   methods: {
     init(){
-      this.form.username = this.$store.state.user.username
-      this.imageUrl = this.$store.state.user.avator
+      this.form.username = this.$store.state.user.user_name
+      this.imageUrl = this.$store.state.user.user_avator
+      if(this.role == 1){
+        let data ={ri_id:this.$store.state.user.user_id}
+        postRequest('/getrinfor',data).then(res=>{
+         this.roleForm = res.data.data// 待完善
+        },err=>console.log(err))
+      }
     },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw)

@@ -126,16 +126,16 @@ export default {
       this.form.m_creater = this.$store.state.user.id
 
       postRequest("/newMechanism",this.form).then(res=>{
-        console.log(res)
-      }).catch(err=>{
-        console.log(err)
-      })
-      this.$notify({
+        this.$notify({
         title: '成功',
         message: '成功提交申请，我们将第一时间审批',
         offset: 100
       })
       this.$router.replace({ path: '/' })
+      }).catch(err=>{
+        console.log(err)
+      })
+
     }
   }
 }

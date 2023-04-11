@@ -16,6 +16,9 @@
           <el-form-item label="任职岗位">
             <el-input v-model="form.post"></el-input>
           </el-form-item>
+          <el-form-item label="联系号码">
+            <el-input class="idno-style" placeholder="输入手机号码" v-model="form.phone"></el-input>
+          </el-form-item>
           <el-form-item label="身份证号码">
             <el-input class="idno-style" placeholder="输入身份证号码" v-model="form.idno"></el-input>
           </el-form-item>
@@ -68,7 +71,10 @@ export default {
         type: false,
         post: '',
         idno: '',
-        mname: ''
+        mname: '',
+        photo:[],
+        jgid:'',
+        phone:''
       },
       dialogImageUrl: '',
       dialogVisible: false,
@@ -77,16 +83,31 @@ export default {
   },
   methods: {
     handleSuccess(res,file,fileList){
- console.log(res)
+        this.form.photo.push(res.data.imageurl)
+        console.log(this.form.photo)
     },
     onSubmit() {
-      console.log('submit!')
-      this.$notify({
+      let data={
+         ri_id:this.$store.state.user.user_id,
+         ri_jgid:this.form.jgid,
+         ri_position:this.form.post,
+         ri_phone:this.form.phone,
+         ri_sfz:this.form.idno,
+         ri_name:this.form.name,
+         ri_sfzzp:JSON.stringify(this.form.phone)
+      }
+      console.log(data)
+      postRequest("/newrinfor",data).then(
+        res=>{
+          this.$notify({
         title: '成功',
         message: '成功提交申请，我们将第一时间审批',
         offset: 100
       })
       this.$router.replace({ path: '/' })
+        }
+      ).catch(err=>console.log(err))
+
     },
     handleRemove(file) {
       console.log(file)
@@ -114,6 +135,7 @@ export default {
     },
     handleSelect(item) {
       console.log(item)
+      this.form.jgid = item.id
     },
     toNewM() {
       this.$router.push({ name: 'mecha' })
