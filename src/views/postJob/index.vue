@@ -37,7 +37,7 @@
                     <el-time-picker is-range v-model="form.worktime" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" placeholder="选择时间范围"> </el-time-picker>
                   </el-form-item>
                   <el-form-item label="工作介绍">
-                    <el-input type="textarea" v-model="form.desc"></el-input>
+                    <wangEditor @sendEditor="getEditor"></wangEditor>
                   </el-form-item>
                   <el-form-item label="工作地址">
                     <el-cascader placeholder="选择工作地址" style="margin-bottom: 15px" v-model="form.workarea" :options="cData"></el-cascader>
@@ -100,7 +100,9 @@
 <script>
 import search from '@/components/search.vue'
 import cityData from '../../utils/cityData'
+import wangEditor from '@/components/wangEditor.vue'
 export default {
+
   data() {
     return {
       form: {
@@ -122,7 +124,8 @@ export default {
     }
   },
   components: {
-    search
+    search,
+    wangEditor
   },
   created() {
     this.typeList = this.$store.state.category
@@ -153,6 +156,9 @@ export default {
         worktime: [new Date(), new Date()],
         class: ''
       }
+    },
+    getEditor(v){
+      this.form.desc = v
     }
   }
 }
