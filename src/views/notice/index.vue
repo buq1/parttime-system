@@ -6,25 +6,34 @@
     </el-breadcrumb>
     <div class="search">
       <div>
-        <h2>1111111111111111111111</h2>
-        <p>公告编码：{{ notice.id }}</p>
-        <div class="img-style"><el-image :src="notice.photo" fit="fill"> </el-image></div>
-        <div class="nav-style">{{ notice.nav }}</div>
+        <h2>{{ notice.n_title }}</h2>
+        <p>公告编码：{{ notice.n_id }}</p>
+        <div class="img-style"><el-image :src="notice.n_photo" fit="fill"> </el-image></div>
+        <div class="nav-style" v-html="notice.n_nav"></div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { getRequest } from '@/axios/api';
 export default {
   data() {
     return {
       notice: {
-        id: '1',
-        title: '11111111111111111111111111111111111',
-        photo: 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-        nav: '222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222'
       }
+    }
+  },
+  created(){
+    this.getNoticeInfo(this.$route.params.nid)
+  },
+  methods:{
+    getNoticeInfo(val){
+       getRequest('/getnbyid?nid='+val).then(res=>{
+        this.notice = res.data.data
+       }).catch(err=>{
+        console.log(err)
+       })
     }
   }
 }

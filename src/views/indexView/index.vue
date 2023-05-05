@@ -1,8 +1,8 @@
 <template>
   <div class="i-nav scroller">
     <el-carousel :interval="4000" type="card" height="400px">
-      <el-carousel-item v-for="item in imageList" :key="item.id" :title="item.title">
-        <el-image @click="switchNotice(item.id)" :src="item.src" class="img"></el-image>
+      <el-carousel-item v-for="item in imageList" :key="item.n_id" :title="item.n_title">
+        <el-image @click="switchNotice(item.n_id)" :src="item.n_photo" class="img"></el-image>
       </el-carousel-item>
     </el-carousel>
     <div class="middle-col">
@@ -84,46 +84,12 @@
 </template>
 <script>
 import JobGrid from '@/components/JobGrid.vue'
+import { getRequest } from '@/axios/api'
 export default {
   data() {
     return {
       imageList: [
-        {
-          id: 1,
-          src: require('../../assets/banner1.png'),
-
-          title: '大学生兼职管理系统'
-        },
-        {
-          id: 2,
-          src: require('../../assets/banner2.png'),
-
-          title: '大学生兼职管理系统'
-        },
-        {
-          id: 3,
-          src: require('../../assets/banner3.jpg'),
-
-          title: '大学生兼职管理系统'
-        },
-        {
-          id: 4,
-          src: require('../../assets/banner4.jpg'),
-
-          title: '大学生兼职管理系统'
-        },
-        {
-          id: 5,
-          src: require('../../assets/banner5.jpg'),
-
-          title: '大学生兼职管理系统'
-        },
-        {
-          id: 6,
-          src: require('../../assets/banner6.png'),
-
-          title: '大学生兼职管理系统'
-        }
+       
       ],
       surplusCa: [],
       surplusCy: []
@@ -144,6 +110,9 @@ export default {
       return this.$store.state.countyList
     }
   },
+  created(){
+    this.getNotice()
+  },
   methods: {
     switchNotice(v) {
       this.$router.push({ path: `/notice/${v}` })
@@ -155,6 +124,15 @@ export default {
     },
     showCounty() {
       this.surplusCy = this.$store.state.countyList.slice(10, this.$store.state.countyList.length)
+    },
+    getNotice(){
+        getRequest('/getnbyone').then(
+          res=>{
+            this.imageList = res.data.data
+          }
+        ).catch(err=>{
+          console.log(err)
+        })
     }
   }
 }
