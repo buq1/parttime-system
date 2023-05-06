@@ -9,36 +9,57 @@ const routes = [
   {
     path:'/',
     name:'index',
-    component:IndexView
+    component:IndexView,
+    meta:{
+      isAuth:false
+    }
   },
   {
     path:'/map',
     name:'gyg',
-    component:()=>import('../views/strollMap/index.vue')
+    component:()=>import('../views/strollMap/index.vue'),
+    meta:{
+      isAuth:false
+    }
   },
   {
     path:'/postjob',
     name:'postjob',
-    component:()=>import('../views/postJob/index')
+    component:()=>import('../views/postJob/index'),
+    meta:{
+      isAuth:true
+    }
   },
   {
     path:'/info',
     name:'message',
-    component:()=>import('../views/getInfor/index')
+    component:()=>import('../views/getInfor/index'),
+    meta:{
+      isAuth:true
+    }
   },
   {
     path:'/personal',
     name:'myinfo',
-    component:()=>import('../views/personalCenter/index')
+    component:()=>import('../views/personalCenter/index'),
+    meta:{
+      isAuth:true
+    }
   },{
     path:'/tobezpf',
     name:'cwzpf',
-    component:()=>import('../views/postJob/tobezp.vue')
+    component:()=>import('../views/postJob/tobezp.vue'),
+    meta:{
+      isAuth:true
+    }
   },
   {
     path:'/newmechanism',
     name:'mecha',
-    component:()=>import('../views/postJob/newmecha.vue')
+    component:()=>import('../views/postJob/newmecha.vue'),
+    meta:{
+      isAuth:true
+    }
   },
   {
     path:'/search/:text',
@@ -73,22 +94,34 @@ const routes = [
 {
   path:'/cv',
   name:'cv',
-  component:()=>import('../views/personalCenter/cvManage')
+  component:()=>import('../views/personalCenter/cvManage'),
+  meta:{
+    isAuth:true
+  }
 },
 {
   path:'/sphistory',
   name:'sphistory',
-  component:()=>import('../views/spHistory/index')
+  component:()=>import('../views/spHistory/index'),
+  meta:{
+    isAuth:true
+  }
 },
 {
   path:'/personalinfo',
 name:'pinfo',
-component:()=>import('../views/personalCenter/personalInfo')
+component:()=>import('../views/personalCenter/personalInfo'),
+meta:{
+  isAuth:true
+}
 }
 ,{
   path:'/company',
   name:'company',
-  component:()=>import('../views/personalCenter/company')
+  component:()=>import('../views/personalCenter/company'),
+  meta:{
+    isAuth:true
+  }
 }
 ]
 
@@ -96,6 +129,18 @@ const router = new VueRouter({
   //mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+router.beforeEach((to,from,next)=>{
+  if(to.meta.isAuth){
+   if(sessionStorage.getItem('user')){
+    next()
+   }else{
+    window.alert("请先登录")
+    next(false)
+   }
+  }else{
+    next()
+  }
 })
 
 export default router

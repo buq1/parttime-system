@@ -6,7 +6,7 @@
         <div class="p-title">!!!!!!!!!!!!</div>
       </div>
       <div class="p-bar">
-        <div>
+        <div v-if="$store.state.user.user_role == 0">
           <div class="bar-header" @click="$router.push({ name: 'cv' })">
             <i class="el-icon-document-add"></i>
           </div>
@@ -24,7 +24,7 @@
           </div>
           <div class="bar-bottom">个人信息</div>
         </div>
-        <div>
+        <div v-if="$store.state.user.user_role == 1">
           <div class="bar-header" @click="$router.push({ name: 'company' })">
             <i class="el-icon-set-up"></i>
           </div>
