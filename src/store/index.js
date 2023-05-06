@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import cityData from '@/utils/cityData' 
+import cityData from '@/utils/cityData'
 import { postRequest } from '@/axios/api'
 import vue from '@/main'
 
@@ -203,13 +203,13 @@ export default new Vuex.Store({
       cid:'jzzl048',
       cname:'其他'
     }
-                                
+
     ],
     countyList:[],
     loginStatus:false,
 
     user:{
-      user_id:'1008611',
+      user_id:'',
       user_role:'0',
       user_name:'',
       user_avator:'',
@@ -222,7 +222,7 @@ export default new Vuex.Store({
     ADD_TO_CITY(state,payload){
       state.currentCity = payload
     },
-    GET_COUNTY(state,payload){  
+    GET_COUNTY(state,payload){
       state.countyList = cityData.getCounty(payload)
     },
     CHANGE_LOGINSTATUS(state){
@@ -236,20 +236,20 @@ export default new Vuex.Store({
   actions: {
     // getCounty(context){
     //    const {commit}=context
-    //    const {state} =context 
+    //    const {state} =context
     //  commit('GET_COUNTY',cityData.getCounty(state.currentCity))
     // }
     loginUser({commit},payload){
       return new Promise((resolve,reject)=>{
       postRequest('/userlogin', payload).then(
-        res => {  
+        res => {
           if (res.status >= 200 && res.status < 300) {
             if (res.data.code == 400) {
               vue.$message.error(res.data.message)
               reject(res.data.message)
             }else if(res.data.code ==20002){
-             vue.$message.warning(res.data.message) 
-             reject(res.data.message)  
+             vue.$message.warning(res.data.message)
+             reject(res.data.message)
             } else {
               commit('ADD_USER',res.data.data)
               commit('CHANGE_LOGINSTATUS')

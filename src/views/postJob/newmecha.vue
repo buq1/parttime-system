@@ -15,10 +15,11 @@
             <el-input class="n-s" v-model="form.m_name"></el-input>
           </el-form-item>
           <el-form-item label="公司LOGO">
-            <el-upload action="http://127.0.0.1:8088/oss/policy" :on-success="handleSuccess" :on-error="handleError" list-type="picture-card" :limit="1" :on-exceed="throwOver">
+            <el-upload action="http://127.0.0.1:8088/oss/policy" :on-success="handleSuccess" :on-error="handleError"
+                       list-type="picture-card" :limit="1" :on-exceed="throwOver">
               <i slot="default" class="el-icon-plus"></i>
               <div slot="file" slot-scope="{ file }">
-                <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
+                <img class="el-upload-list__item-thumbnail" :src="file.url" alt=""/>
                 <span class="el-upload-list__item-actions">
                   <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
                     <i class="el-icon-zoom-in"></i>
@@ -30,17 +31,18 @@
               </div>
             </el-upload>
             <el-dialog :visible.sync="dialogVisible">
-              <img width="100%" :src="dialogImageUrl" alt="" />
+              <img width="100%" :src="dialogImageUrl" alt=""/>
             </el-dialog>
           </el-form-item>
           <el-form-item label="公司统一社会信用码">
             <el-input class="n-s" v-model="form.m_shxydm"></el-input>
           </el-form-item>
           <el-form-item label="公司营业执照照片">
-            <el-upload action="http://127.0.0.1:8088/oss/policy" list-type="picture-card" :on-success="handleSuccess1" :on-error="handleError" :limit="1" :on-exceed="throwOver">
+            <el-upload action="http://127.0.0.1:8088/oss/policy" list-type="picture-card" :on-success="handleSuccess1"
+                       :on-error="handleError" :limit="1" :on-exceed="throwOver">
               <i slot="default" class="el-icon-plus"></i>
               <div slot="file" slot-scope="{ file }">
-                <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
+                <img class="el-upload-list__item-thumbnail" :src="file.url" alt=""/>
                 <span class="el-upload-list__item-actions">
                   <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
                     <i class="el-icon-zoom-in"></i>
@@ -56,7 +58,9 @@
             <el-input type="textarea" v-model="form.m_infor"></el-input>
           </el-form-item>
           <el-form-item label="公司环境照片">
-            <el-upload class="upload-demo" action="http://127.0.0.1:8088/oss/policy" :on-success="handleSuccess2" :limit="6" :on-exceed="throwOver" :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :multiple="true" list-type="picture">
+            <el-upload class="upload-demo" action="http://127.0.0.1:8088/oss/policy" :on-success="handleSuccess2"
+                       :limit="6" :on-exceed="throwOver" :on-preview="handlePreview" :on-remove="handleRemove"
+                       :file-list="fileList" :multiple="true" list-type="picture">
               <el-button size="small" type="primary">点击上传</el-button>
               <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
             </el-upload>
@@ -75,7 +79,8 @@
 </template>
 
 <script>
-import { postRequest } from '@/axios/api'
+import {postRequest} from '@/axios/api'
+
 export default {
   data() {
     return {
@@ -122,20 +127,36 @@ export default {
       this.dialogVisible = true
     },
     onSubmit() {
-      this.form.m_creater = this.$store.state.user.user_id
-
-      postRequest('/newMechanism', this.form)
-        .then(res => {
-          this.$notify({
-            title: '成功',
-            message: '成功提交申请，我们将第一时间审批',
-            offset: 100
-          })
-          this.$router.replace({ path: '/' })
+      if (this.$store.state.user.user_id === "") {
+        this.$notify({
+          title: '失败',
+          message: '请先登录',
+          offset: 100
         })
-        .catch(err => {
-          console.log(err)
-        })
+      } else {
+        this.form.m_creater = this.$store.state.user.user_id
+        postRequest('/newMechanism', this.form)
+            .then(res => {
+                  if (res.data.code === 400) {
+                    this.$notify({
+                      title: '失败',
+                      message: res.data.message,
+                      offset: 100
+                    })
+                  } else {
+                    this.$notify({
+                      title: '成功',
+                      message: '成功提交申请，我们将第一时间审批',
+                      offset: 100
+                    })
+                    this.$router.replace({path: '/'})
+                  }
+                }
+            )
+            .catch(err => {
+              console.log(err)
+            })
+      }
     }
   }
 }
@@ -148,17 +169,21 @@ export default {
   font-size: 1px;
   line-height: 0px;
 }
+
 .tit {
   color: red;
 }
+
 .n-s {
   width: 250px;
 }
+
 .nav-middle {
   width: 100%;
   box-sizing: border-box;
   padding: 20px 80px;
 }
+
 .t-nav {
   width: 100%;
   height: 100%;
@@ -167,6 +192,7 @@ export default {
   justify-content: center;
   background-color: #f6f6f8;
 }
+
 .t-nav > div {
   width: 1200px;
   box-sizing: border-box;
@@ -175,14 +201,17 @@ export default {
   height: auto !important;
   min-height: 860px;
 }
+
 .nav-header {
   width: 100%;
   box-sizing: border-box;
   padding: 15px 15px;
 }
+
 .el-breadcrumb {
   font-size: 16px;
 }
+
 .el-breadcrumb > span:first-child > span {
   cursor: pointer;
 }
